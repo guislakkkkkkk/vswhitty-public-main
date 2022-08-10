@@ -859,9 +859,9 @@ class ChartingState extends MusicBeatState
 				shiftThing = 4;
 			if (!writingNotes)
 			{
-				if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
+				if (controls.RIGHT_P || FlxG.keys.justPressed.D)
 					changeSection(curSection + shiftThing);
-				if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
+				if (controls.LEFT_P || FlxG.keys.justPressed.A)
 					changeSection(curSection - shiftThing);
 			}	
 			if (FlxG.keys.justPressed.SPACE)
@@ -938,9 +938,9 @@ class ChartingState extends MusicBeatState
 
 		_song.bpm = tempBpm;
 
-		/* if (FlxG.keys.justPressed.UP)
+		/* if (controls.UP_P)
 				Conductor.changeBPM(Conductor.bpm + 1);
-			if (FlxG.keys.justPressed.DOWN)
+			if (controls.DOWN_P)
 				Conductor.changeBPM(Conductor.bpm - 1); */
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))

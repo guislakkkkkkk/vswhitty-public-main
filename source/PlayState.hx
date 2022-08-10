@@ -55,7 +55,6 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
-
 import openfl.utils.Assets as OpenFlAssets;
 
 #if windows

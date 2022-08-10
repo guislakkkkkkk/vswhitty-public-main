@@ -3,8 +3,13 @@ package;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxSubState;
+#if android
+import flixel.input.actions.FlxActionInput;
+import android.AndroidControls.AndroidControls;
+import android.FlxVirtualPad;
+#end
 
-class MusicBeatSubstate extends FlxSubState
+class MusicBeatState extends FlxUIState
 {
 	public function new()
 	{
@@ -20,6 +25,76 @@ class MusicBeatSubstate extends FlxSubState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+
+	#if android
+	var _virtualpad:FlxVirtualPad;
+	var androidc:AndroidControls;
+	var trackedinputsUI:Array<FlxActionInput> = [];
+	var trackedinputsNOTES:Array<FlxActionInput> = [];
+	#end
+
+	#if android
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action, 0.75, true);
+		add(_virtualpad);
+		controls.setVirtualPad(_virtualpad, DPad, Action);
+		trackedinputsUI = controls.trackedinputs;
+		controls.trackedinputs = [];
+	}
+	#end
+
+	#if android
+	public function removeVirtualPad() {
+		controls.removeFlxInput(trackedinputs);
+		remove(_virtualpad);
+	}
+	#end
+
+	#if android
+	public function addAndroidControls() {
+                androidc = new AndroidControls();
+
+		switch (androidc.mode)
+		{
+			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+				controls.setVirtualPad(androidc.vpad, FULL, NONE);
+			case DUO:
+				controls.setVirtualPad(androidc.vpad, DUO, NONE);
+			case HITBOX:
+				controls.setHitBox(androidc.hbox);
+			default:
+		}
+
+		trackedinputs = controls.trackedinputs;
+		controls.trackedinputs = [];
+
+		var camcontrol = new flixel.FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		androidc.cameras = [camcontrol];
+
+		androidc.visible = false;
+
+		add(androidc);
+	}
+	#end
+
+	#if android
+        public function addPadCamera() {
+		var camcontrol = new flixel.FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		_virtualpad.cameras = [camcontrol];
+	}
+	#end
+
+	override function destroy() {
+		#if android
+		controls.removeFlxInput(trackedinputs);	
+		#end	
+
+		super.destroy();
+	}
 
 	override function update(elapsed:Float)
 	{

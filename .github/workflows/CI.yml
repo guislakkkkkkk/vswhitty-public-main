@@ -54,6 +54,7 @@ jobs:
           haxelib install hscript
           haxelib install newgrounds
           haxelib install flixel-addons
+          haxelib git AndroidTools https://github.com/jigsaw-4277821/AndroidTools.git   
           haxelib git polymod https://github.com/MasterEric/polymod.git --quiet
           haxelib git extension-webm https://github.com/KadeDev/extension-webm
           haxelib git newgrounds https://github.com/Geokureli/Newgrounds.git
